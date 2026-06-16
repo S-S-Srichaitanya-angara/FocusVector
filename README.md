@@ -27,22 +27,11 @@ FocusMate is a production-grade analytics and productivity-tracking dashboard en
 
 ### Backend & Data Layers
 
-* 
-**Runtime & Framework:** Node.js + Express.js REST API.
-
-
-* 
-**Database Engine:** Relational SQLite (Local MVP instance) structured for structured logging and session persistence.
-
-
-* 
-**Authentication:** Stateless JSON Web Tokens (JWT) with persistent user profiles.
-
-
+* **Runtime & Framework:** Node.js + Express.js REST API.
+* **Database Engine:** Relational SQLite (Local MVP instance) structured for structured logging and session persistence.
+* **Authentication:** Stateless JSON Web Tokens (JWT) with persistent user profiles.
 * **Automation Engine:** `node-cron` internal task scheduler for asynchronous midnight analytical aggregations.
-
 ---
-
 ## 📁 Repository File Structure
 
 ```text
@@ -101,19 +90,9 @@ $$\text{Focus Score} = \Big( (0.5 \times FT_{\text{ratio}}) + (0.3 \times TC) + 
 
 ### Parameter Matrix Definitions:
 
-* 
-**$FT_{\text{ratio}}$ (Focus Time Ratio):** The ratio of strictly engaged/active time to total elapsed session time.
-
-
-* 
-**$TC$ (Task Completion Rate):** The percentage of explicitly defined sub-tasks successfully completed during that tracking block.
-
-
-* 
-**$DT_{\text{ratio}}$ (Distraction Time Ratio):** The ratio of distraction events (such as jumping into blocked application window handles or active idle intervals) to total session time.
-
-
-
+* **$FT_{\text{ratio}}$ (Focus Time Ratio):** The ratio of strictly engaged/active time to total elapsed session time.
+* **$TC$ (Task Completion Rate):** The percentage of explicitly defined sub-tasks successfully completed during that tracking block.
+* **$DT_{\text{ratio}}$ (Distraction Time Ratio):** The ratio of distraction events (such as jumping into blocked application window handles or active idle intervals) to total session time.
 Concrete Execution Example:
 
 For a single **4-hour session** (`14,400 seconds`) where a user maintains a **78% focus ratio**, hits an **85% task completion rate**, and registers a **12% distraction footprint**:
@@ -123,18 +102,13 @@ $$\text{Score} = \Big( (0.5 \times 0.78) + (0.3 \times 0.85) + \big(0.2 \times (
 $$\text{Score} = (0.39 + 0.255 + 0.176) \times 100 = 82.1 \implies \mathbf{82/100}$$
 
 ---
-
 ## 🔌 API Contract Specifications
 
 ### 1. Active Session Core Overview
 
 * **Endpoint:** `GET /api/session/current`
-* 
-**Target UI Components:** `Topbar.jsx` Live Clock, `MiniStatCard.jsx` wrappers.
-
-
+* **Target UI Components:** `Topbar.jsx` Live Clock, `MiniStatCard.jsx` wrappers.
 * **Payload Structure:**
-
 ```json
 {
   "status": "success",
@@ -155,10 +129,7 @@ $$\text{Score} = (0.39 + 0.255 + 0.176) \times 100 = 82.1 \implies \mathbf{82/10
 ### 2. Time-Series Stacked Sequence
 
 * **Endpoint:** `GET /api/sessions/timeline`
-* 
-**Target UI Component:** `SessionTimeline.jsx` (Stacked multi-color Recharts sequence).
-
-
+* **Target UI Component:** `SessionTimeline.jsx` (Stacked multi-color Recharts sequence).
 * **Payload Structure:**
 
 ```json
@@ -176,10 +147,7 @@ $$\text{Score} = (0.39 + 0.255 + 0.176) \times 100 = 82.1 \implies \mathbf{82/10
 ### 3. Categorized Application Distraction Distribution
 
 * **Endpoint:** `GET /api/distractions`
-* 
-**Target UI Component:** `TopDistractions.jsx` list ranking.
-
-
+* **Target UI Component:** `TopDistractions.jsx` list ranking.
 * **Payload Structure:**
 
 ```json
