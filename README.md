@@ -13,18 +13,11 @@ FocusMate is a production-grade analytics and productivity-tracking dashboard en
 
 ### Frontend Architecture
 
-* 
-**Framework:** React 18 (Component-based architecture utilizing React hooks for state management).
-
-
+* **Framework:** React 18 (Component-based architecture utilizing React hooks for state management).
 * **Data Visualization:** Recharts (Animated line charts, stacked timelines, and daily bar graphs).
 * **Iconography:** Lucide React.
 * **Typography:** Syne (Display/Headings) and DM Sans (Body text).
-* 
-**Theming:** Full Dark Theme + Light Theme toggle via a native CSS variable design token system.
-
-
-
+* **Theming:** Full Dark Theme + Light Theme toggle via a native CSS variable design token system.
 ### Backend & Data Layers
 
 * **Runtime & Framework:** Node.js + Express.js REST API.
