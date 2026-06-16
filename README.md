@@ -1,6 +1,6 @@
-# FocusMate: Data-Driven Productivity Optimization Loop
+# FocusVector: Data-Driven Productivity Optimization Loop
 
-FocusMate is a production-grade analytics and productivity-tracking dashboard engineered to treat focus as a measurable engineering variable. Designed to eliminate productivity leakage and cognitive task-switching overhead , the system combines a highly responsive React frontend with a lightweight, local-first Node.js/Express backend to deliver a quantitative behavioral feedback mirror.
+FocusVector is a production-grade analytics and productivity-tracking dashboard engineered to treat focus as a measurable engineering variable. Designed to eliminate productivity leakage and cognitive task-switching overhead , the system combines a highly responsive React frontend with a lightweight, local-first Node.js/Express backend to deliver a quantitative behavioral feedback mirror.
 
 > 
 > **Project Status:** Live Prototype / Early Alpha. Mathematical modeling and dual-theme dashboard interfaces are fully functional.
@@ -28,8 +28,8 @@ FocusMate is a production-grade analytics and productivity-tracking dashboard en
 ## 📁 Repository File Structure
 
 ```text
-focusmate-workspace/
-├── focusmate-frontend/          # React Single Page Application (SPA)
+FocusVector-workspace/
+├── FocusVector-frontend/          # React Single Page Application (SPA)
 │   ├── public/
 │   │   └── index.html           # HTML entry point
 │   ├── src/
@@ -53,7 +53,7 @@ focusmate-workspace/
 │   │   ├── App.jsx              # Application root and layout router
 │   │   └── index.css            # Global design tokens and styling overrides
 │   
-├── focusmate-backend/           # Node.js REST API
+├── FocusVector-backend/           # Node.js REST API
 │   ├── config/
 │   │   └── database.js          # SQLite connection and migration management
 │   ├── src/
@@ -186,7 +186,7 @@ The user interface maintains exact design fidelity utilizing CSS Custom Properti
 
 1. Navigate to the application root directory:
 ```bash
-cd focusmate-frontend
+cd FocusVector-frontend
 
 ```
 
@@ -213,7 +213,7 @@ npm start
 
 1. Navigate to the api directory:
 ```bash
-cd focusmate-backend
+cd FocusVector-backend
 
 ```
 
