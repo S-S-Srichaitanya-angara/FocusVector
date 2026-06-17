@@ -1,83 +1,133 @@
-import { ComposedChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { sessionTimeline } from '../../data/mockData';
-import { Info } from 'lucide-react';
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid
+} from "recharts";
 
-const timeLabels = ['10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM'];
+const timelineData = [
+  {
+    timeWindow: "08 AM",
+    focus: 110,
+    distraction: 10,
+    idle: 0
+  },
+  {
+    timeWindow: "10 AM",
+    focus: 88,
+    distraction: 24,
+    idle: 8
+  },
+  {
+    timeWindow: "12 PM",
+    focus: 0,
+    distraction: 60,
+    idle: 60
+  },
+  {
+    timeWindow: "02 PM",
+    focus: 95,
+    distraction: 12,
+    idle: 5
+  },
+  {
+    timeWindow: "04 PM",
+    focus: 120,
+    distraction: 8,
+    idle: 0
+  }
+];
 
-const data = sessionTimeline.map((d, i) => ({
-  ...d,
-  label: i % 8 === 0 ? timeLabels[Math.floor(i / 8)] : '',
-}));
+function CustomTooltip({
+  active,
+  payload,
+  label
+}) {
+  if (
+    active &&
+    payload &&
+    payload.length
+  ) {
+    return (
+      <div className="timeline-tooltip">
+        <p>{label}</p>
 
-const CustomTooltip = ({ active, payload }) => {
-  if (!active || !payload?.length) return null;
+        <p>
+          Focus: {payload[0].value} min
+        </p>
+
+        <p>
+          Distraction: {payload[1].value} min
+        </p>
+
+        <p>
+          Idle: {payload[2].value} min
+        </p>
+      </div>
+    );
+  }
+
+  return null;
+}
+
+function SessionTimeline() {
   return (
-    <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 12px', fontSize: 11 }}>
-      <div style={{ color: 'var(--green-primary)' }}>Focus: {Math.round(payload[0]?.value || 0)}%</div>
-      <div style={{ color: 'var(--red-primary)' }}>Distraction: {Math.round(payload[1]?.value || 0)}%</div>
-    </div>
-  );
-};
+    <div className="card session-timeline-card">
+      <div className="widget-header">
+        <h3 className="section-title">
+          Focus Timeline
+        </h3>
 
-export default function SessionTimeline() {
-  return (
-    <div className="card timeline-card">
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-        <div className="card-title">
-          Session Timeline <Info size={13} />
-        </div>
-        <div className="timeline-legend">
-          {[['var(--green-primary)', 'Focus'], ['var(--red-primary)', 'Distraction'], ['rgba(255,255,255,0.2)', 'Idle']].map(([c, l]) => (
-            <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <div className="legend-dot" style={{ background: c }} />
-              <span className="legend-label">{l}</span>
-            </div>
-          ))}
-        </div>
+        <span className="widget-subtitle">
+          Focus vs Distraction vs Idle
+        </span>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--text-muted)', marginBottom: 4, paddingLeft: 32 }}>
-        <span>Active</span>
-      </div>
+      <div className="chart-container">
+        <ResponsiveContainer
+          width="100%"
+          height={320}
+        >
+          <BarChart data={timelineData}>
+            <CartesianGrid
+              strokeDasharray="3 3"
+              opacity={0.15}
+            />
 
-      <ResponsiveContainer width="100%" height={120}>
-        <ComposedChart data={data} barGap={0} barCategoryGap={0}>
-          <XAxis dataKey="label" tick={{ fontSize: 9, fill: 'var(--text-muted)' }} tickLine={false} axisLine={false} interval={7} />
-          <Tooltip content={<CustomTooltip />} />
-          <Bar dataKey="focus" stackId="a" fill="var(--green-primary)" opacity={0.85} radius={[0,0,0,0]} maxBarSize={6}>
-            {data.map((entry, i) => (
-              <Cell key={i} fill={entry.focus > 0 ? 'var(--green-primary)' : 'transparent'} />
-            ))}
-          </Bar>
-          <Bar dataKey="distraction" stackId="b" fill="var(--red-primary)" opacity={0.85} maxBarSize={6}>
-            {data.map((entry, i) => (
-              <Cell key={i} fill={entry.distraction > 0 ? 'var(--red-primary)' : 'transparent'} />
-            ))}
-          </Bar>
-        </ComposedChart>
-      </ResponsiveContainer>
+            <XAxis
+              dataKey="timeWindow"
+            />
 
-      <div style={{ display: 'flex', fontSize: 10, color: 'var(--text-muted)', justifyContent: 'space-between', paddingLeft: 4, marginBottom: 12 }}>
-        <span>Idle</span>
-      </div>
+            <YAxis />
 
-      <div className="timeline-footer">
-        <div className="timeline-stat">
-          <div className="legend-dot" style={{ background: 'var(--green-primary)' }} />
-          <span className="timeline-stat-label">Longest Focus Streak:</span>
-          <span className="timeline-stat-val" style={{ color: 'var(--text-primary)' }}>52 min</span>
-        </div>
-        <div className="timeline-stat">
-          <div className="legend-dot" style={{ background: 'var(--red-primary)' }} />
-          <span className="timeline-stat-label">Longest Distraction:</span>
-          <span className="timeline-stat-val" style={{ color: 'var(--text-primary)' }}>12 min (Instagram)</span>
-        </div>
-        <div className="timeline-stat">
-          <span>🔄</span>
-          <span className="timeline-stat-label">Total Switches:</span>
-          <span className="timeline-stat-val" style={{ color: 'var(--text-primary)' }}>18 times</span>
-        </div>
+            <Tooltip content={<CustomTooltip />} />
+
+            <Bar
+              dataKey="focus"
+              stackId="a"
+              fill="#22C55E"
+              radius={[4, 4, 0, 0]}
+            />
+
+            <Bar
+              dataKey="distraction"
+              stackId="a"
+              fill="#EF4444"
+            />
+
+            <Bar
+              dataKey="idle"
+              stackId="a"
+              fill="#64748B"
+            />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
 }
+
+export default SessionTimeline;

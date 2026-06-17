@@ -1,33 +1,66 @@
-import { topDistractions } from '../../data/mockData';
-import { Info } from 'lucide-react';
+const distractions = [
+  {
+    app: "Instagram",
+    durationMinutes: 28,
+    percentage: 52
+  },
+  {
+    app: "YouTube",
+    durationMinutes: 16,
+    percentage: 29
+  },
+  {
+    app: "WhatsApp",
+    durationMinutes: 6,
+    percentage: 11
+  },
+  {
+    app: "App Switches",
+    durationMinutes: 4,
+    percentage: 8
+  }
+];
 
-export default function TopDistractions() {
+function TopDistractions() {
   return (
-    <div className="card distractions-card">
-      <div className="card-title" style={{ marginBottom: 12 }}>
-        Top Distractions <Info size={13} />
+    <div className="card top-distractions-card">
+      <div className="widget-header">
+        <h3 className="section-title">
+          Top Distractions
+        </h3>
       </div>
 
-      {topDistractions.map((d) => (
-        <div key={d.app} className="distraction-row">
-          <div className="distraction-app-icon">{d.icon}</div>
-          <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span className="distraction-name">{d.app}</span>
-              <span className="distraction-time">{d.time}</span>
-              <span className="distraction-pct" style={{ color: d.color }}>{d.percent}%</span>
-            </div>
-            <div className="distraction-bar-wrap" style={{ marginTop: 5 }}>
-              <div className="distraction-bar-fill" style={{ width: `${d.percent * 3}%`, background: d.color }} />
-            </div>
-          </div>
-        </div>
-      ))}
+      <div className="distractions-list">
+        {distractions.map((item) => (
+          <div
+            key={item.app}
+            className="distraction-item"
+          >
+            <div className="distraction-header">
+              <span>{item.app}</span>
 
-      <div className="total-distraction">
-        <span className="total-label">Total Distraction Time</span>
-        <span className="total-value">00:54:45</span>
+              <span>
+                {item.durationMinutes} min
+              </span>
+            </div>
+
+            <div className="progress-track">
+              <div
+                className="progress-fill distraction-fill"
+                style={{
+                  width: `${item.percentage}%`
+                }}
+              />
+            </div>
+
+            <span className="progress-label">
+              {item.percentage}%
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
+
+export default TopDistractions;
