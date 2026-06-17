@@ -1,51 +1,72 @@
-import { useState, useEffect } from 'react';
-import { Bell, Moon, Play } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
-export default function Topbar() {
-  const [elapsed, setElapsed] = useState(5076); // 01:24:36 in seconds
+const Topbar = () => {
+  const [sessionData, setSessionData] = useState(null);
 
   useEffect(() => {
-    const interval = setInterval(() => setElapsed(e => e + 1), 1000);
-    return () => clearInterval(interval);
+    // Phase 1: Pull details from active API contract specification
+    fetch('http://localhost:5000/api/session/current')
+      .then((res) => res.json())
+      .then((resData) => {
+        if (resData.status === 'success') {
+          setSessionData(resData.data);
+        }
+      })
+      .catch((err) => console.error('Failed fetching runtime system telemetry:', err));
   }, []);
 
-  const fmt = (s) => {
-    const h = String(Math.floor(s / 3600)).padStart(2, '0');
-    const m = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
-    const sec = String(s % 60).padStart(2, '0');
-    return `${h}:${m}:${sec}`;
+  const formatSeconds = (totalSeconds) => {
+    const hrs = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (
-    <header className="topbar">
-      <div className="topbar-left">
-        <h1>Dashboard</h1>
-        <p>Your productivity overview</p>
+    <header style={{
+      height: '70px',
+      position: 'fixed',
+      top: 0,
+      left: '260px',
+      right: 0,
+      backgroundColor: 'rgba(15, 17, 21, 0.85)',
+      backdropFilter: 'blur(8px)',
+      borderBottom: '1px solid rgba(255,255,255,0.05)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '0 2rem',
+      zIndex: 100
+    }}>
+      <div>
+        {sessionData?.isSessionActive && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              backgroundColor: 'var(--green-primary)',
+              animation: 'pulse 2s infinite alternate'
+            }} />
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: '#E2E8F0' }}>
+              Active Vector Tracking State: {formatSeconds(sessionData.currentSessionSeconds)}
+            </span>
+          </div>
+        )}
       </div>
 
-      <div className="topbar-right">
-        <div className="session-badge">
-          <div className="session-dot" />
-          <div>
-            <div className="session-label">Session Active</div>
-            <div className="session-time">{fmt(elapsed)}</div>
-          </div>
+      <div style={{ display: 'flex', gap: '1.5rem', fontFamily: 'var(--font-body)', fontSize: '0.85rem' }}>
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ color: '#64748B' }}>FOCUS HOURS TODAY</div>
+          <div style={{ color: '#F1F5F9', fontWeight: 'bold' }}>{sessionData?.todayStats?.totalFocusHours || '0.00'} hrs</div>
         </div>
-
-        <div className="icon-btn" style={{ position: 'relative' }}>
-          <Bell size={16} />
-          <div className="badge">2</div>
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ color: '#64748B' }}>CURRENT AGGREGATE SCORE</div>
+          <div style={{ color: 'var(--green-primary)', fontWeight: 'bold' }}>{sessionData?.todayStats?.focusScore || '0'}/100</div>
         </div>
-
-        <div className="icon-btn">
-          <Moon size={16} />
-        </div>
-
-        <button className="btn-start">
-          <Play size={13} fill="currentColor" />
-          Start Session
-        </button>
       </div>
     </header>
   );
-}
+};
+
+export default Topbar;
