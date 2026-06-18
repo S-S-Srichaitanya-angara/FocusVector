@@ -109,6 +109,26 @@ CREATE TABLE IF NOT EXISTS daily_analytics (
         ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS session_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    session_id INTEGER NOT NULL,
+
+    event_type TEXT NOT NULL,
+
+    app_name TEXT,
+    window_title TEXT,
+
+    start_time DATETIME NOT NULL,
+    end_time DATETIME,
+
+    duration_seconds INTEGER DEFAULT 0,
+
+    FOREIGN KEY (session_id)
+        REFERENCES sessions(id)
+        ON DELETE CASCADE
+);
+
 -- =====================================================
 -- INDEXES
 -- =====================================================
@@ -127,3 +147,6 @@ ON tasks(user_id);
 
 CREATE INDEX IF NOT EXISTS idx_daily_analytics_user
 ON daily_analytics(user_id);
+
+CREATE INDEX IF NOT EXISTS idx_session_events_session
+ON session_events(session_id);

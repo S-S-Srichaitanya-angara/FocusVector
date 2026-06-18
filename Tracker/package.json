@@ -1,0 +1,14 @@
+{
+  "name": "focusvector-tracker",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "active-win": "^8.2.1",
+    "axios": "^1.18.0",
+    "electron": "^42.4.1",
+    "node-cron": "^4.4.1"
+  }
+}

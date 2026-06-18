@@ -15,6 +15,10 @@ const authRoutes = require(
   "./routes/auth.routes"
 );
 
+const sessionRoutes = require(
+  "./routes/session.routes"
+);
+
 /*
 |--------------------------------------------------------------------------
 | Middleware
@@ -60,6 +64,10 @@ app.use(
   authRoutes
 );
 
+app.use(
+  "/api/session",
+  sessionRoutes
+);
 /*
 |--------------------------------------------------------------------------
 | 404 Handler

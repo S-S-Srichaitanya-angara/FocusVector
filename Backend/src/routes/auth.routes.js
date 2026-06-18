@@ -6,6 +6,9 @@ const AuthController = require(
 
 const router = express.Router();
 
+const authMiddleware = require(
+  "../middleware/auth"
+);
 /*
 |--------------------------------------------------------------------------
 | Authentication Routes
@@ -22,6 +25,17 @@ router.get("/test", (req, res) => {
 router.post(
   "/register",
   AuthController.register
+);
+
+router.post(
+  "/login",
+  AuthController.login
+);
+
+router.get(
+  "/me",
+  authMiddleware,
+  AuthController.me
 );
 
 module.exports = router;
