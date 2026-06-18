@@ -1,7 +1,7 @@
 const express = require("express");
 
-const SessionController = require(
-  "../controllers/session.controller"
+const TaskController = require(
+  "../controllers/task.controller"
 );
 
 const authMiddleware = require(
@@ -11,21 +11,21 @@ const authMiddleware = require(
 const router = express.Router();
 
 router.post(
-  "/start",
+  "/",
   authMiddleware,
-  SessionController.start
+  TaskController.create
 );
 
 router.get(
-  "/current",
+  "/",
   authMiddleware,
-  SessionController.current
+  TaskController.getAll
 );
 
-router.post(
-  "/end",
+router.patch(
+  "/:id/complete",
   authMiddleware,
-  SessionController.end
+  TaskController.complete
 );
 
 module.exports = router;

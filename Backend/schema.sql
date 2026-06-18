@@ -71,12 +71,11 @@ CREATE TABLE IF NOT EXISTS tasks (
 
     title TEXT NOT NULL,
 
-    completed INTEGER DEFAULT 0
-        CHECK (completed IN (0,1)),
+    is_completed INTEGER DEFAULT 0,
 
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (user_id)
+    FOREIGN KEY(user_id)
         REFERENCES users(id)
         ON DELETE CASCADE
 );

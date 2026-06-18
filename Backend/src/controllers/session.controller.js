@@ -1,7 +1,15 @@
 const SessionModel = require(
   "../models/session.model"
 );
-
+const SessionEventModel = require(
+  "../models/sessionEvent.model"
+);
+const calculateFocusScore = require(
+  "../utils/focusScore"
+);
+const TaskModel = require(
+  "../models/task.model"
+);
 class SessionController {
   /*
   |--------------------------------------------------------------------------
@@ -83,6 +91,72 @@ static async current(
         isSessionActive: true,
         sessionId: session.id,
         currentSessionSeconds
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+/*
+|--------------------------------------------------------------------------
+| End Session
+|--------------------------------------------------------------------------
+*/
+
+static async end(
+  req,
+  res,
+  next
+) {
+  try {
+    const session =
+      SessionModel.getActiveSession(
+        req.user.userId
+      );
+
+    if (!session) {
+      return res.status(404).json({
+        status: "error",
+        message: "No active session found"
+      });
+    }
+
+    const metrics =
+      SessionEventModel.aggregateSession(
+        session.id
+      );
+
+    const focusScore =
+      calculateFocusScore({
+        focusSeconds:
+          metrics.focusSeconds,
+        distractionSeconds:
+          metrics.distractionSeconds,
+        idleSeconds:
+          metrics.idleSeconds,
+        taskCompletionRate
+      });
+
+    SessionModel.endSession(
+      session.id,
+      metrics.focusSeconds,
+      metrics.distractionSeconds,
+      metrics.idleSeconds,
+      focusScore
+    );
+
+    return res.status(200).json({
+      status: "success",
+      data: {
+        sessionId: session.id,
+        focusSeconds:
+          metrics.focusSeconds,
+        distractionSeconds:
+          metrics.distractionSeconds,
+        idleSeconds:
+          metrics.idleSeconds,
+        taskCompletionRate,
+        focusScore
       }
     });
   } catch (error) {

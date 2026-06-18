@@ -19,6 +19,14 @@ const sessionRoutes = require(
   "./routes/session.routes"
 );
 
+const sessionEventRoutes = require(
+  "./routes/sessionEvent.routes"
+);
+
+const taskRoutes = require(
+  "./routes/task.routes"
+);
+
 /*
 |--------------------------------------------------------------------------
 | Middleware
@@ -68,6 +76,17 @@ app.use(
   "/api/session",
   sessionRoutes
 );
+
+app.use(
+  "/api/session-events",
+  sessionEventRoutes
+);
+
+app.use(
+  "/api/tasks",
+  taskRoutes
+);
+
 /*
 |--------------------------------------------------------------------------
 | 404 Handler
