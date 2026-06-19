@@ -27,6 +27,10 @@ const taskRoutes = require(
   "./routes/task.routes"
 );
 
+const analyticsRoutes = require(
+  "./routes/analytics.routes"
+);
+
 /*
 |--------------------------------------------------------------------------
 | Middleware
@@ -85,6 +89,11 @@ app.use(
 app.use(
   "/api/tasks",
   taskRoutes
+);
+
+app.use(
+  "/api/analytics",
+  analyticsRoutes
 );
 
 /*

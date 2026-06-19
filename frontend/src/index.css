@@ -1,0 +1,23 @@
+:root {
+  --green-primary: #22C55E;
+  --red-distraction: #EF4444;
+  --purple-tasks: #A855F7;
+
+  --bg-dashboard: #0F1115;
+  --bg-card: #181C22;
+
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-dashboard);
+  color: white;
+  font-family: var(--font-body);
+}
